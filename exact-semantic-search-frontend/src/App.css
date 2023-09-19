@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.page {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  --dot-bg: #e6ecf1;
+  --dot-color: black;
+  --dot-size: 1px;
+  --dot-space: 22px;
+	background:
+		linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+		linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+		var(--dot-color);
+}
+
+.page-menu {
+  flex: 1;
+  display: flex;
+  height: 100vh;
+  position: sticky;
+  top: 0px;
+}
+
+.page-content {
+  flex: 10;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.main-seaction-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.search {
+  display: flex;
+}
+.search-bar {
+  height: 30px;
+  height: 30px;
+  min-width: 30rem;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #ffff;
+  border: none;
+  box-shadow: 0 2px 10px 5px rgba(64,60,67,.16);
+  color: black;
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+}
+
+.document {
+  background-color: #efefef;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  /* max-height: 100px; */
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+}
+
+.result-container {
+  margin: 1rem;
+  margin-right: 3rem;
+}
+
+.document-title {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 0.5rem;
+}
+
+.document-content {
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(106, 106, 106);
+}
+
+.document-attributes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.document-attribute {
+  background-color: #e8ebfd;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 6px;
+  color: #4b5dfe;
+  border: 1px solid #0400ff57;
+}
+
+.document:hover {
+  background-color: rgb(185, 185, 185);
+}
+
+.ai-result-container {
+  background-color: #3a3a3a;
+  border-radius: 6px;
+  padding: 1rem;
+  color: white;
+  position: relative;
+  padding: 1rem;
+  position: relative;
+  background: #0e0e0e;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  z-index: 5;
+}
+
+.result-AI.box {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  color: white;
+  right: 0px;
+}
+
+.box::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  bottom: 0;
+  left: 0px;
+  background: linear-gradient(-45deg, #ff3d00 0%, #0400ff 100% );
+  transform: translate3d(0px, 0px, 0) scale(0.95);
+  filter: blur(20px);
+  opacity: 1.4;
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+
+/* 
+* Prevents issues when the parent creates a 
+* stacking context. (For example, using the transform
+* property )
+*/
+.box::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: inherit;
+  border-radius: inherit;
+}
+      
+
+.ai-answer-content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.menu-conatiner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  max-height: 100vh;
+  position: sticky;
+  top: 0px;
+}
+
+.menu-conatiner ul {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0.25rem;
+}
+
+.menu-conatiner {
+  margin-left: 1rem;
+}
+
+.menu-conatiner li {
+  padding: 0.5rem;
+  font-size: 14px;
+}
+
+.menu-conatiner li:hover {
+  background-color: #e5e8fd;
+  border-radius: 6px;
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  color: black;
+  cursor: pointer;
+}
+
+.menu-conatiner li.selected {
+  font-weight: bold;
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  border-radius: 6px;
+  background-color: #152dff;
+  padding: 0.5rem;
+  color: white
+}
+
+.experimental-button {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.experimental-button.selected {
+  font-weight: bold;
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  border-radius: 6px;
+  background-color: #152dff;
+  padding: 0.5rem;
+  color: white
+}
+
+.experimental-button:hover {
+  background-color: #e5e8fd;
+  border-radius: 6px;
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  color: black
+}
+
+
+
