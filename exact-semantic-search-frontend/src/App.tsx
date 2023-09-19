@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import { MainSection } from "./components/mainSection";
-import { Menu, Solutions } from "./components/menu";
+import { Menu, Solutions } from "./components/Menu";
+import { MainSection } from "./components/MainSection";
 
 function App() {
 	const [selectedSolution, setSolution] = useState<Solutions | undefined>(undefined);
