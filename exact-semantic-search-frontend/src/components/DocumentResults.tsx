@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const DocumentResults: React.FC<Props> = (props) => {
-	const formatCertainty = (certainty: number, decimalPlaces: number = 4): string => {
+	const formatCertainty = (certainty: number): string => {
 		return (certainty * 100).toFixed(2);
 	};
 

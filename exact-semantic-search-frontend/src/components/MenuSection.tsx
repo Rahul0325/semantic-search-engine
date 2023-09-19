@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Solutions } from "./menu";
+import { Solutions } from "./Menu";
 
 type Props = {
 	sectionName: string;
@@ -21,7 +21,7 @@ export const MenuSection: React.FC<Props> = (props) => {
 						id={`${index}`}
 						key={index}
 						className={props.selectedSolution === label ? "selected" : ""}
-						onClick={(e) => {
+						onClick={() => {
 							if (props.selectedSolution === label && props.selectedSolution !== undefined) {
 								props.setSolution(undefined);
 							} else {
