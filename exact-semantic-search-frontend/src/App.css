@@ -20,7 +20,7 @@ body {
   justify-content: center;
   flex-wrap: wrap;
 
-  --dot-bg: #b3bec7;
+  --dot-bg: #eaebf6;
   --dot-color: black;
   --dot-size: 1px;
   --dot-space: 22px;
@@ -83,13 +83,14 @@ body {
 }
 
 .document {
-  background-color: #efefef;
+  background-color: #ffffff;
   margin-top: 1rem;
   margin-bottom: 1rem;
   /* max-height: 100px; */
   padding: 1rem;
   border-radius: 6px;
   box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+  cursor: pointer;
 }
 
 .result-container {

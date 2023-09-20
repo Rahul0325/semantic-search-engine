@@ -1,36 +1,74 @@
 import React, { useState } from "react";
-import { LoadingStates, SemanticSearchResult, urlSemanticSearch } from "../constants/constants";
+import {
+	LoadingStates,
+	SemanticSearchResult,
+	WeaviateSearchResult,
+	urlFetchDocs,
+	urlSemanticSearch,
+} from "../constants/constants";
 import { Result } from "./Result";
-import { SkeletonText } from "@chakra-ui/react";
 
 export const MainSection: React.FC = () => {
 	const [query, setQuery] = useState<string>();
-	const [data, setData] = useState<SemanticSearchResult | undefined>(undefined);
-	const [isLoading, setIsLoading] = useState<LoadingStates>("home");
+	const [AiAnswer, setAiAnswer] = useState<SemanticSearchResult | undefined>(undefined);
+	const [isLoadingAiAnswer, setIsLoadingAiAnswer] = useState<LoadingStates>("home");
+
+	const [docs, setDocs] = useState<WeaviateSearchResult[] | undefined>(undefined);
+	const [isLoadingDocs, setIsLoadingDocs] = useState<LoadingStates>("home");
+
 	const [error, setError] = useState<string | undefined>(undefined);
 
+	const getDocs = async () => {
+		const url = urlFetchDocs + query;
+
+		try {
+			setIsLoadingDocs("loading");
+			const response = await fetch(url);
+			if (!response.ok) {
+				// TODO: report faulure
+				setIsLoadingDocs("error");
+				setError(await response.json());
+			}
+			const data: SemanticSearchResult = await response.json();
+			setDocs(data.weaviate_response);
+			console.log("THE DOCS ARE: ");
+			console.log(data.weaviate_response);
+			setIsLoadingDocs("success");
+		} catch (error) {
+			// TODO: report faulure
+			if (error instanceof Error) {
+				setIsLoadingDocs("error");
+				setError(error.message);
+			}
+		}
+	};
+
+	const getAiAnswer = async () => {
+		const url = urlSemanticSearch + query;
+		try {
+			setIsLoadingAiAnswer("loading");
+			const response = await fetch(url);
+			if (!response.ok) {
+				// TODO: report faulure
+				setIsLoadingAiAnswer("error");
+				setError(await response.json());
+			}
+			const data: SemanticSearchResult = await response.json();
+			setAiAnswer(data);
+			console.log(data.weaviate_response);
+			setIsLoadingAiAnswer("success");
+		} catch (error) {
+			// TODO: report faulure
+			if (error instanceof Error) {
+				setIsLoadingAiAnswer("error");
+				setError(error.message);
+			}
+		}
+	};
 	const handleKeyDown = async (event: { key: string }) => {
 		if (event.key === "Enter") {
-			const url = urlSemanticSearch + query;
-			try {
-				setIsLoading("loading");
-				const response = await fetch(url);
-				if (!response.ok) {
-					// TODO: report faulure
-					setIsLoading("error");
-					setError(await response.json());
-				}
-				const data: SemanticSearchResult = await response.json();
-				setData(data);
-				console.log(data.weaviate_response);
-				setIsLoading("success");
-			} catch (error) {
-				// TODO: report faulure
-				if (error instanceof Error) {
-					setIsLoading("error");
-					setError(error.message);
-				}
-			}
+			await getDocs();
+			await getAiAnswer();
 		}
 	};
 
@@ -44,26 +82,20 @@ export const MainSection: React.FC = () => {
 					placeholder="How can I help you today?"
 					onChange={(e) => setQuery(e.currentTarget.value)}
 				></input>
-				<div className="skeleton">
-					<SkeletonText mt="0" noOfLines={10} spacing="4" skeletonHeight="2" />
-				</div>{" "}
 			</div>
 			<div className="results">
-				{isLoading === "success" && data && <Result name="vector Search" data={data}></Result>}
-			</div>
-
-			<div>
-				{isLoading === "loading" && (
-					<>
-						{" "}
-						<div className="skeleton">
-							hello
-							<SkeletonText mt="0" noOfLines={10} spacing="4" skeletonHeight="2" />
-						</div>
-					</>
+				{isLoadingDocs === "success" && docs && (
+					<Result
+						name="vector Search"
+						data={AiAnswer}
+						docs={docs}
+						isLoadingAiAnswer={isLoadingAiAnswer}
+					></Result>
 				)}
 			</div>
-			<div>{isLoading === "error" && error}</div>
+
+			<div>{isLoadingDocs === "loading" && <>{"Fetching the best docs..."}</>}</div>
+			<div>{isLoadingDocs === "error" && error}</div>
 		</div>
 	);
 };
