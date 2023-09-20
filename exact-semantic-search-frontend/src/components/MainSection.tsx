@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { LoadingStates, SemanticSearchResult, urlSemanticSearch } from "../constants/constants";
 import { Result } from "./Result";
+import { SkeletonText } from "@chakra-ui/react";
 
 export const MainSection: React.FC = () => {
 	const [query, setQuery] = useState<string>();
@@ -43,12 +44,25 @@ export const MainSection: React.FC = () => {
 					placeholder="How can I help you today?"
 					onChange={(e) => setQuery(e.currentTarget.value)}
 				></input>
+				<div className="skeleton">
+					<SkeletonText mt="0" noOfLines={10} spacing="4" skeletonHeight="2" />
+				</div>{" "}
 			</div>
 			<div className="results">
 				{isLoading === "success" && data && <Result name="vector Search" data={data}></Result>}
 			</div>
 
-			<div>{isLoading === "loading" && "Im fetching your results..."}</div>
+			<div>
+				{isLoading === "loading" && (
+					<>
+						{" "}
+						<div className="skeleton">
+							hello
+							<SkeletonText mt="0" noOfLines={10} spacing="4" skeletonHeight="2" />
+						</div>
+					</>
+				)}
+			</div>
 			<div>{isLoading === "error" && error}</div>
 		</div>
 	);
