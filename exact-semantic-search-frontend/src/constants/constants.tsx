@@ -1,8 +1,8 @@
 export const urlSemanticSearch =
-	"https://exact-cs-semantic-search.azurewebsites.net/api/cssemanticsearch?query=";
+	"https://cssemanticsearch-hotfix.azurewebsites.net/api/cssemanticsearch?query=";
 
 export const urlFetchDocs =
-	"https://exact-cs-semantic-search.azurewebsites.net/api/fetchdocs?query=";
+	"https://cssemanticsearch-hotfix.azurewebsites.net/api/fetchdocs?query=";
 
 export interface SemanticSearchResult {
 	answer: string;
