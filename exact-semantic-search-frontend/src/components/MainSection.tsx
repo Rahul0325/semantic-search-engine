@@ -74,7 +74,16 @@ export const MainSection: React.FC = () => {
 
 	return (
 		<div className="main-seaction-container">
-			<div className="header">Exact Semantic Search</div>
+			<div className="header">
+				<img
+					className="logo"
+					src={
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Exact_logo.svg/1280px-Exact_logo.svg.png"
+					}
+					alt="Logo of Exact"
+				/>
+				<span>Semantic Search</span>
+			</div>
 			<div className="search">
 				<input
 					className="search-bar"

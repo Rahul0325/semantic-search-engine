@@ -20,15 +20,17 @@ body {
   justify-content: center;
   flex-wrap: wrap;
 
-  --dot-bg: #eaebf6;
+  --dot-bg: #f9fafb;
   --dot-color: black;
-  --dot-size: 1px;
+  --dot-size: 0.5px;
   --dot-space: 22px;
 	background:
 		linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
 		linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
 		var(--dot-color);
-}
+
+    /* background-color:#f9fafb; */
+  }
 
 .page-menu {
   flex: 1;
@@ -69,12 +71,16 @@ body {
   height: 40px;
   border-radius:20px;
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
   background-color: #ffff;
   border: none;
   box-shadow: 0 2px 10px 5px rgba(64,60,67,.16);
   color: black;
+}
+
+.search-bar::placeholder {
+  text-align: center;
 }
 
 .results {
@@ -202,6 +208,7 @@ body {
   max-height: 100vh;
   position: sticky;
   top: 0px;
+  min-width: 9rem;
 }
 
 .menu-conatiner ul {
@@ -215,51 +222,166 @@ body {
 }
 
 .menu-conatiner li {
+  background-color: rgb(240, 239, 239);
+  margin-top: 5px;
   padding: 0.5rem;
-  font-size: 14px;
+  border: 3px solid #0070f0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-weight: 400;
+  position: relative;
 }
 
 .menu-conatiner li:hover {
-  background-color: #e5e8fd;
-  border-radius: 6px;
+  background-color: #0070f0;
+  color: white;
+  border-radius: 10px;
   box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
-  color: black;
-  cursor: pointer;
+  animation: button-hover 0.15s ease-in-out forwards;
 }
 
 .menu-conatiner li.selected {
-  font-weight: bold;
   box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
-  border-radius: 6px;
-  background-color: #152dff;
+  border-radius: 10px;
+  background-color: #0070f0;
   padding: 0.5rem;
   color: white
 }
 
-.experimental-button {
+.menu-conatiner li:active {
+  animation: ripple 0.3s ease-in-out forwards;
+}
+
+.button {
   margin-bottom: 1rem;
   padding: 1rem;
-  color: black;
+  background-color: rgb(240, 239, 239);
+  border: 3px solid #0070f0;
+  border-radius: 10px;
   font-weight: bold;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.button.dark {
+  background-color: #0070f0;
+  color: white;
+}
+
+.button.selected {
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  border-radius: 10px;
+  background-color: #0070f0;
+  padding: 0.5rem;
+  color: white
+}
+
+.button:hover {
+  background-color: #0070f0;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
+  animation: button-hover 0.3s ease-in-out forwards;
+}
+
+.button:active {
+  animation: ripple 0.15s ease-in-out forwards;
+}
+
+@keyframes button-hover {
+  0% {
+    background-color: initial;
+  }
+  100% {
+    background-color: #0070f0;
+    color: white;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* .skeleton {
+  z-index: 100;
+} */
+
+.feedback {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}
+
+.feedback-yes {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.feedback-modal-footer > .button {
+  margin-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.feedback-modal-footer > .button.light {
+  background-color: white;
+}
+
+.feedback > .feedback-yes {
+  color: greenyellow;
   cursor: pointer;
 }
 
-.experimental-button.selected {
-  font-weight: bold;
-  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
-  border-radius: 6px;
-  background-color: #152dff;
-  padding: 0.5rem;
-  color: white
+.feedback > .feedback-no {
+  color: rgb(255, 65, 65);
+  cursor: pointer;
 }
 
-.experimental-button:hover {
-  background-color: #e5e8fd;
-  border-radius: 6px;
-  box-shadow: 0 0px 10px 4px rgba(64,60,67,.16);
-  color: black
+.feedback-modal-body > .checkbox-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.skeleton {
-  z-index: 100;
+.checkbox-field input{
+  margin-right: 0.5rem;
+}
+
+.input-area {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-area textarea {
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 6px;
+  min-height: 10rem;
+  margin-top: 0.5rem;
+}
+
+.logo {
+  max-width: 8rem;
+  margin-right: 1rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+  font-size: x-large;
 }

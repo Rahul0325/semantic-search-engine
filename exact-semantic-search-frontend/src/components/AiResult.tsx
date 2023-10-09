@@ -1,6 +1,7 @@
-import { SkeletonText } from "@chakra-ui/react";
+import { SkeletonText, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { LoadingStates } from "../constants/constants";
+import { Feedback } from "./Feedback";
 
 type Props = {
 	answer: string | undefined;
@@ -8,12 +9,24 @@ type Props = {
 };
 
 export const AiResult: React.FC<Props> = (props) => {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	const answer = (
 		<>
 			{" "}
 			<span>Your AI answer: </span>
 			<div className="ai-answer-content">{props.answer}</div>
 			<span>If you would like to know more, please refer to the documents below.</span>
+			<div className="feedback">
+				Helpful?
+				<div className="feedback-yes" onClick={onOpen}>
+					✓
+				</div>
+				<div className="feedback-no" onClick={onOpen}>
+					✗
+				</div>
+				<Feedback isOpen={isOpen} onOpen={onOpen} onClose={onClose}></Feedback>
+			</div>
 		</>
 	);
 	const placeholder = (

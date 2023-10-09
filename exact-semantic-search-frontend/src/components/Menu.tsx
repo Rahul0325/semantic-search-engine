@@ -22,10 +22,7 @@ export const Menu: React.FC<Props> = (props) => {
 
 	return (
 		<div className="menu-conatiner">
-			<div
-				className={`experimental-button ${props.experimentalMode ? "selected" : ""}`}
-				onClick={handleClick}
-			>
+			<div className={`button ${props.experimentalMode ? "selected" : ""}`} onClick={handleClick}>
 				Experimental Mode
 			</div>
 			<div className="menu-solution">
