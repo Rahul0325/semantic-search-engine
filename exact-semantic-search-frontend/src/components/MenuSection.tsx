@@ -1,31 +1,32 @@
 import React, { useEffect } from "react";
-import { Solutions } from "./Menu";
+import { AiModel, SearchMethod, Solutions } from "../constants/constants";
 
 type Props = {
-	sectionName: string;
-	selectedSolution: Solutions | undefined;
-	setSolution: React.Dispatch<React.SetStateAction<Solutions | undefined>>;
+	title: string;
+	menuOptions: string[]
+	selectedOption: Solutions | AiModel | SearchMethod | undefined;
+	setSelectedOption: React.Dispatch<React.SetStateAction<any | undefined>>;
 };
 
 export const MenuSection: React.FC<Props> = (props) => {
 	useEffect(() => {
-		console.log(props.selectedSolution);
-	}, [props.selectedSolution]);
+		console.log(props.selectedOption);
+	}, [props.selectedOption]);
 
 	return (
 		<div>
-			<span>{props.sectionName}</span>
+			<span>{props.title}</span>
 			<ul>
-				{Object.values(Solutions).map((label, index) => (
+				{props.menuOptions.map((label, index) => (
 					<li
 						id={`${index}`}
 						key={index}
-						className={props.selectedSolution === label ? "selected" : ""}
+						className={props.selectedOption === label ? "selected" : ""}
 						onClick={() => {
-							if (props.selectedSolution === label && props.selectedSolution !== undefined) {
-								props.setSolution(undefined);
+							if (props.selectedOption === label && props.selectedOption !== undefined) {
+								props.setSelectedOption(undefined);
 							} else {
-								props.setSolution(label);
+								props.setSelectedOption(label);
 							}
 						}}
 					>

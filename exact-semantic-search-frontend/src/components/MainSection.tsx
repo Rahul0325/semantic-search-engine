@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+	AiModel,
+	FeedbackData,
 	LoadingStates,
+	SearchMethod,
 	SemanticSearchResult,
+	Solutions,
 	WeaviateSearchResult,
 	urlFetchDocs,
 	urlSemanticSearch,
 } from "../constants/constants";
 import { Result } from "./Result";
 
-export const MainSection: React.FC = () => {
+type Props = {
+	experimentalMode: boolean;
+	aiModel: AiModel | undefined;
+	searchMethod: SearchMethod | undefined;
+	solution: Solutions | undefined
+}
+
+export const MainSection: React.FC<Props> = (props) => {
 	const [query, setQuery] = useState<string>();
-	const [AiAnswer, setAiAnswer] = useState<SemanticSearchResult | undefined>(undefined);
+	const [aiAnswer, setAiAnswer] = useState<SemanticSearchResult | undefined>(undefined);
+	const [feedbackData, setFeedbackData] = useState<FeedbackData>({});
+
 	const [isLoadingAiAnswer, setIsLoadingAiAnswer] = useState<LoadingStates>("home");
 
 	const [docs, setDocs] = useState<WeaviateSearchResult[] | undefined>(undefined);
@@ -18,11 +31,31 @@ export const MainSection: React.FC = () => {
 
 	const [error, setError] = useState<string | undefined>(undefined);
 
+	useEffect(() => {
+		 if (isLoadingAiAnswer === "success") {
+			const _newFeedbackData: FeedbackData = {
+				...feedbackData,				
+				query: query, 
+				aiModel: props.aiModel ?? "ada gpt4", 
+				documentTitles: docs?.map(_doc => _doc.title), 
+				searchMethod: props.searchMethod ?? "vector", 
+				aiAnswer: aiAnswer?.answer
+			}
+			setFeedbackData(_newFeedbackData)
+		 }
+	}, [isLoadingAiAnswer])
+
 	const getDocs = async () => {
-		const url = urlFetchDocs + query;
+		let url = urlFetchDocs + query;
+		
+		if (props.experimentalMode) {
+			props.aiModel ? url += `&aimodel=${props.aiModel}` : ""
+			props.searchMethod ? url += `&searchmethod=${props.searchMethod}` : ""	
+		}
 
 		try {
-			setIsLoadingDocs("loading");
+			setIsLoadingDocs("loading");	
+			console.log(url)		
 			const response = await fetch(url);
 			if (!response.ok) {
 				// TODO: report faulure
@@ -31,8 +64,6 @@ export const MainSection: React.FC = () => {
 			}
 			const data: SemanticSearchResult = await response.json();
 			setDocs(data.weaviate_response);
-			console.log("THE DOCS ARE: ");
-			console.log(data.weaviate_response);
 			setIsLoadingDocs("success");
 		} catch (error) {
 			// TODO: report faulure
@@ -55,7 +86,7 @@ export const MainSection: React.FC = () => {
 			}
 			const data: SemanticSearchResult = await response.json();
 			setAiAnswer(data);
-			console.log(data.weaviate_response);
+
 			setIsLoadingAiAnswer("success");
 		} catch (error) {
 			// TODO: report faulure
@@ -65,6 +96,7 @@ export const MainSection: React.FC = () => {
 			}
 		}
 	};
+
 	const handleKeyDown = async (event: { key: string }) => {
 		if (event.key === "Enter") {
 			await getDocs();
@@ -95,10 +127,12 @@ export const MainSection: React.FC = () => {
 			<div className="results">
 				{isLoadingDocs === "success" && docs && (
 					<Result
-						name="vector Search"
-						data={AiAnswer}
+						query={query}
+						data={aiAnswer}
 						docs={docs}
 						isLoadingAiAnswer={isLoadingAiAnswer}
+						feedbackData={feedbackData}
+						setFeedbackData={setFeedbackData}
 					></Result>
 				)}
 			</div>

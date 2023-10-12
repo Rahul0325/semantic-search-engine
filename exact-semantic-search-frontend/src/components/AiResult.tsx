@@ -1,11 +1,13 @@
 import { SkeletonText, useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import { LoadingStates } from "../constants/constants";
+import { FeedbackData, LoadingStates } from "../constants/constants";
 import { Feedback } from "./Feedback";
 
 type Props = {
 	answer: string | undefined;
 	isLoadingAiAnswer: LoadingStates;
+	feedbackData: FeedbackData;
+	setFeedbackData: React.Dispatch<React.SetStateAction<FeedbackData>>
 };
 
 export const AiResult: React.FC<Props> = (props) => {
@@ -25,7 +27,13 @@ export const AiResult: React.FC<Props> = (props) => {
 				<div className="feedback-no" onClick={onOpen}>
 					✗
 				</div>
-				<Feedback isOpen={isOpen} onOpen={onOpen} onClose={onClose}></Feedback>
+				<Feedback 
+					isOpen={isOpen} 
+					onOpen={onOpen} 
+					onClose={onClose} 
+					feedbackData={props.feedbackData}
+					setFeedbackData={props.setFeedbackData}
+					></Feedback>
 			</div>
 		</>
 	);
