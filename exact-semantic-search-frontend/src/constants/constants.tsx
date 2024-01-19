@@ -1,5 +1,8 @@
+// export const urlSemanticSearch =
+// 	"https://exact-cs-semantic-search.azurewebsites.net/api/CsSemanticSearch?query=";
+
 export const urlSemanticSearch =
-	"https://exact-cs-semantic-search.azurewebsites.net/api/CsSemanticSearch?query=";
+	"https://command-center-functions.azurewebsites.net/api/support-copilot-claude?query=";
 
 export const urlFetchDocs =
 	"https://exact-cs-semantic-search.azurewebsites.net/api/FetchDocs?query=";
